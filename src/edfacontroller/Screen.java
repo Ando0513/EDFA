@@ -83,6 +83,7 @@ public class Screen extends JFrame {
 	private JTextField textFieldSetting7_3;
 	private JTextField textFieldSetting8_3;
 
+	
 	/**
 	* Launch the application.
 	*/
