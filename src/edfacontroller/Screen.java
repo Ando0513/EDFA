@@ -1,6 +1,5 @@
 package edfacontroller;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,20 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Label;
-import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.FlowLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import java.awt.Font;
 
 public class Screen extends JFrame {
@@ -80,14 +74,14 @@ public class Screen extends JFrame {
 	private final ButtonGroup buttonGroup_5 = new ButtonGroup();
 	private final ButtonGroup buttonGroup_6 = new ButtonGroup();
 	private final ButtonGroup buttonGroup_7 = new ButtonGroup();
-	private JTextField textFieldSetting1_4;
-	private JTextField textFieldSetting2_4;
-	private JTextField textFieldSetting3_4;
-	private JTextField textFieldSetting4_4;
-	private JTextField textFieldSetting5_4;
-	private JTextField textFieldSetting6_4;
-	private JTextField textFieldSetting7_4;
-	private JTextField textFieldSetting8_4;
+	private JTextField textFieldSetting1_3;
+	private JTextField textFieldSetting2_3;
+	private JTextField textFieldSetting3_3;
+	private JTextField textFieldSetting4_3;
+	private JTextField textFieldSetting5_3;
+	private JTextField textFieldSetting6_3;
+	private JTextField textFieldSetting7_3;
+	private JTextField textFieldSetting8_3;
 
 	/**
 	* Launch the application.
@@ -96,12 +90,21 @@ public class Screen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					String res;
 					Screen frame = new Screen();
 					frame.setVisible(true);
-					twsc = new TwoWaySerialComm(frame);
+					twsc = new TwoWaySerialComm();
 					twsc.connect("/dev/ttyUSB0");
-					twsc.sendSpin();
-					twsc.sendSpout();
+					res = twsc.sendSpin();
+					String[] split = res.split("\n");
+					for(int i = 0; i < split.length; i++) {
+						frame.setTextFieldIn(split[i], i+1);
+					}
+					res = twsc.sendSpout();
+					String[] split1 = res.split("\n");
+					for(int i = 0; i < split1.length; i++) {
+						frame.setTextFieldOut(split1[i], i+1);
+					}
 					twsc.sendPump("EOL");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -116,7 +119,7 @@ public class Screen extends JFrame {
 	public Screen() {
 		setTitle("EDFA Controller");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 480);
+		setBounds(100, 100, 800, 432);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -127,11 +130,11 @@ public class Screen extends JFrame {
 		starting.setLayout(null);
 
 		JButton btnNewButton = new JButton("Connect");
-		btnNewButton.setBounds(286, 246, 190, 99);
+		btnNewButton.setBounds(286, 146, 190, 99);
 		starting.add(btnNewButton);
 
-		Label label_2 = new Label("EDFA Controller v3.6\u03B2");
-		label_2.setBounds(10, 398, 165, 23);
+		Label label_2 = new Label("EDFA Controller v3.6α");
+		label_2.setBounds(0, 355, 300, 32);
 		starting.add(label_2);
 		
 		JLabel errorCodeStart = new JLabel("");
@@ -157,42 +160,42 @@ public class Screen extends JFrame {
 		pumpinfo.add(btnNewButton_2);
 
 		textFieldPump1 = new JTextField();
-		textFieldPump1.setBounds(195, 41, 441, 36);
+		textFieldPump1.setBounds(195, 19, 441, 36);
 		pumpinfo.add(textFieldPump1);
 		textFieldPump1.setColumns(10);
 
 		textFieldPump2 = new JTextField();
-		textFieldPump2.setBounds(195, 87, 441, 36);
+		textFieldPump2.setBounds(195, 65, 441, 36);
 		pumpinfo.add(textFieldPump2);
 		textFieldPump2.setColumns(10);
 
 		textFieldPump3 = new JTextField();
-		textFieldPump3.setBounds(195, 133, 441, 36);
+		textFieldPump3.setBounds(195, 111, 441, 36);
 		pumpinfo.add(textFieldPump3);
 		textFieldPump3.setColumns(10);
 
 		textFieldPump4 = new JTextField();
-		textFieldPump4.setBounds(195, 179, 441, 36);
+		textFieldPump4.setBounds(195, 157, 441, 36);
 		pumpinfo.add(textFieldPump4);
 		textFieldPump4.setColumns(10);
 
 		textFieldPump5 = new JTextField();
-		textFieldPump5.setBounds(195, 225, 441, 36);
+		textFieldPump5.setBounds(195, 203, 441, 36);
 		pumpinfo.add(textFieldPump5);
 		textFieldPump5.setColumns(10);
 
 		textFieldPump6 = new JTextField();
-		textFieldPump6.setBounds(195, 271, 441, 36);
+		textFieldPump6.setBounds(195, 249, 441, 36);
 		pumpinfo.add(textFieldPump6);
 		textFieldPump6.setColumns(10);
 
 		textFieldPump7 = new JTextField();
-		textFieldPump7.setBounds(195, 317, 441, 36);
+		textFieldPump7.setBounds(195, 295, 441, 36);
 		pumpinfo.add(textFieldPump7);
 		textFieldPump7.setColumns(10);
 
 		textFieldPump8 = new JTextField();
-		textFieldPump8.setBounds(195, 363, 441, 36);
+		textFieldPump8.setBounds(195, 341, 441, 36);
 		pumpinfo.add(textFieldPump8);
 		textFieldPump8.setColumns(10);
 
@@ -204,7 +207,11 @@ public class Screen extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				String data = (String)comboBox.getSelectedItem();
-				twsc.sendPump(data);
+				String res = twsc.sendPump(data);
+				String[] split = res.split("\n");
+				for(int i = 0; i < split.length; i++){
+					setTextFieldPump(split[i], i+1);
+				}
 			}
 		});
 
@@ -227,7 +234,7 @@ public class Screen extends JFrame {
 		setting.add(btnNewButton_3);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(12, 30, 750, 391);
+		panel.setBounds(12, 30, 750, 347);
 		setting.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
@@ -245,7 +252,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_6 = new JButton("OFF");
 		btnNewButton_6.setForeground(Color.RED);
-		btnNewButton_6.setBounds(12, 66, 91, 21);
+		btnNewButton_6.setBounds(12, 60, 91, 21);
 		panel_3.add(btnNewButton_6);
 
 		JRadioButton rdbtnNewRadioButtonS1_1 = new JRadioButton("Gain");
@@ -282,10 +289,10 @@ public class Screen extends JFrame {
 		lblNewLabel_2.setBounds(12, 10, 50, 13);
 		panel_3.add(lblNewLabel_2);
 		
-		textFieldSetting1_4 = new JTextField();
-		textFieldSetting1_4.setColumns(10);
-		textFieldSetting1_4.setBounds(180, 60, 70, 19);
-		panel_3.add(textFieldSetting1_4);
+		textFieldSetting1_3 = new JTextField();
+		textFieldSetting1_3.setColumns(10);
+		textFieldSetting1_3.setBounds(180, 60, 70, 19);
+		panel_3.add(textFieldSetting1_3);
 		
 		JLabel lblNewLabel_10 = new JLabel("dBm");
 		lblNewLabel_10.setBounds(250, 14, 50, 13);
@@ -321,7 +328,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_9 = new JButton("OFF");
 		btnNewButton_9.setForeground(Color.RED);
-		btnNewButton_9.setBounds(12, 66, 91, 21);
+		btnNewButton_9.setBounds(12, 60, 91, 21);
 		panel_5.add(btnNewButton_9);
 
 		JRadioButton rdbtnNewRadioButtonS2_1 = new JRadioButton("Gain");
@@ -358,10 +365,10 @@ public class Screen extends JFrame {
 		lblNewLabel_3.setBounds(12, 10, 50, 13);
 		panel_5.add(lblNewLabel_3);
 		
-		textFieldSetting2_4 = new JTextField();
-		textFieldSetting2_4.setColumns(10);
-		textFieldSetting2_4.setBounds(180, 60, 70, 19);
-		panel_5.add(textFieldSetting2_4);
+		textFieldSetting2_3 = new JTextField();
+		textFieldSetting2_3.setColumns(10);
+		textFieldSetting2_3.setBounds(180, 60, 70, 19);
+		panel_5.add(textFieldSetting2_3);
 		
 		JLabel lblNewLabel_10_2 = new JLabel("dBm");
 		lblNewLabel_10_2.setBounds(250, 14, 50, 13);
@@ -397,7 +404,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_12 = new JButton("OFF");
 		btnNewButton_12.setForeground(Color.RED);
-		btnNewButton_12.setBounds(12, 66, 91, 21);
+		btnNewButton_12.setBounds(12, 60, 91, 21);
 		panel_7.add(btnNewButton_12);
 
 		JRadioButton rdbtnNewRadioButtonS3_1 = new JRadioButton("Gain");
@@ -434,10 +441,10 @@ public class Screen extends JFrame {
 		lblNewLabel_4.setBounds(12, 10, 50, 13);
 		panel_7.add(lblNewLabel_4);
 		
-		textFieldSetting3_4 = new JTextField();
-		textFieldSetting3_4.setColumns(10);
-		textFieldSetting3_4.setBounds(180, 60, 70, 19);
-		panel_7.add(textFieldSetting3_4);
+		textFieldSetting3_3 = new JTextField();
+		textFieldSetting3_3.setColumns(10);
+		textFieldSetting3_3.setBounds(180, 60, 70, 19);
+		panel_7.add(textFieldSetting3_3);
 		
 		JLabel lblNewLabel_10_4 = new JLabel("dBm");
 		lblNewLabel_10_4.setBounds(250, 14, 50, 13);
@@ -473,7 +480,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_15 = new JButton("OFF");
 		btnNewButton_15.setForeground(Color.RED);
-		btnNewButton_15.setBounds(12, 66, 91, 21);
+		btnNewButton_15.setBounds(12, 60, 91, 21);
 		panel_9.add(btnNewButton_15);
 
 		JRadioButton rdbtnNewRadioButtonS4_1 = new JRadioButton("Gain");
@@ -510,10 +517,10 @@ public class Screen extends JFrame {
 		lblNewLabel_5.setBounds(12, 10, 50, 13);
 		panel_9.add(lblNewLabel_5);
 		
-		textFieldSetting4_4 = new JTextField();
-		textFieldSetting4_4.setColumns(10);
-		textFieldSetting4_4.setBounds(180, 60, 70, 19);
-		panel_9.add(textFieldSetting4_4);
+		textFieldSetting4_3 = new JTextField();
+		textFieldSetting4_3.setColumns(10);
+		textFieldSetting4_3.setBounds(180, 60, 70, 19);
+		panel_9.add(textFieldSetting4_3);
 		
 		JLabel lblNewLabel_10_6 = new JLabel("dBm");
 		lblNewLabel_10_6.setBounds(249, 14, 50, 13);
@@ -553,7 +560,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_18 = new JButton("OFF");
 		btnNewButton_18.setForeground(Color.RED);
-		btnNewButton_18.setBounds(12, 66, 91, 21);
+		btnNewButton_18.setBounds(12, 60, 91, 21);
 		panel_4.add(btnNewButton_18);
 
 		JRadioButton rdbtnNewRadioButtonS5_1 = new JRadioButton("Gain");
@@ -590,10 +597,10 @@ public class Screen extends JFrame {
 		lblNewLabel_6.setBounds(12, 10, 50, 13);
 		panel_4.add(lblNewLabel_6);
 		
-		textFieldSetting5_4 = new JTextField();
-		textFieldSetting5_4.setColumns(10);
-		textFieldSetting5_4.setBounds(180, 60, 70, 19);
-		panel_4.add(textFieldSetting5_4);
+		textFieldSetting5_3 = new JTextField();
+		textFieldSetting5_3.setColumns(10);
+		textFieldSetting5_3.setBounds(180, 60, 70, 19);
+		panel_4.add(textFieldSetting5_3);
 		
 		JLabel lblNewLabel_10_8 = new JLabel("dBm");
 		lblNewLabel_10_8.setBounds(250, 14, 50, 13);
@@ -629,7 +636,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_21 = new JButton("OFF");
 		btnNewButton_21.setForeground(Color.RED);
-		btnNewButton_21.setBounds(12, 66, 91, 21);
+		btnNewButton_21.setBounds(12, 60, 91, 21);
 		panel_6.add(btnNewButton_21);
 
 		JRadioButton rdbtnNewRadioButtonS6_1 = new JRadioButton("Gain");
@@ -666,10 +673,10 @@ public class Screen extends JFrame {
 		lblNewLabel_7.setBounds(12, 10, 50, 13);
 		panel_6.add(lblNewLabel_7);
 		
-		textFieldSetting6_4 = new JTextField();
-		textFieldSetting6_4.setColumns(10);
-		textFieldSetting6_4.setBounds(180, 60, 70, 19);
-		panel_6.add(textFieldSetting6_4);
+		textFieldSetting6_3 = new JTextField();
+		textFieldSetting6_3.setColumns(10);
+		textFieldSetting6_3.setBounds(180, 60, 70, 19);
+		panel_6.add(textFieldSetting6_3);
 		
 		JLabel lblNewLabel_10_10 = new JLabel("dBm");
 		lblNewLabel_10_10.setBounds(250, 14, 50, 13);
@@ -705,7 +712,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_24 = new JButton("OFF");
 		btnNewButton_24.setForeground(Color.RED);
-		btnNewButton_24.setBounds(12, 66, 91, 21);
+		btnNewButton_24.setBounds(12, 60, 91, 21);
 		panel_8.add(btnNewButton_24);
 
 		JRadioButton rdbtnNewRadioButtonS7_1 = new JRadioButton("Gain");
@@ -742,10 +749,10 @@ public class Screen extends JFrame {
 		lblNewLabel_8.setBounds(12, 10, 50, 13);
 		panel_8.add(lblNewLabel_8);
 		
-		textFieldSetting7_4 = new JTextField();
-		textFieldSetting7_4.setColumns(10);
-		textFieldSetting7_4.setBounds(180, 60, 70, 19);
-		panel_8.add(textFieldSetting7_4);
+		textFieldSetting7_3 = new JTextField();
+		textFieldSetting7_3.setColumns(10);
+		textFieldSetting7_3.setBounds(180, 60, 70, 19);
+		panel_8.add(textFieldSetting7_3);
 		
 		JLabel lblNewLabel_10_12 = new JLabel("dBm");
 		lblNewLabel_10_12.setBounds(250, 14, 50, 13);
@@ -781,7 +788,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_26 = new JButton("OFF");
 		btnNewButton_26.setForeground(Color.RED);
-		btnNewButton_26.setBounds(12, 66, 91, 21);
+		btnNewButton_26.setBounds(12, 60, 91, 21);
 		panel_10.add(btnNewButton_26);
 
 		JRadioButton rdbtnNewRadioButtonS8_1 = new JRadioButton("Gain");
@@ -818,10 +825,10 @@ public class Screen extends JFrame {
 		lblNewLabel_9.setBounds(12, 12, 50, 13);
 		panel_10.add(lblNewLabel_9);
 		
-		textFieldSetting8_4 = new JTextField();
-		textFieldSetting8_4.setColumns(10);
-		textFieldSetting8_4.setBounds(180, 60, 70, 19);
-		panel_10.add(textFieldSetting8_4);
+		textFieldSetting8_3 = new JTextField();
+		textFieldSetting8_3.setColumns(10);
+		textFieldSetting8_3.setBounds(180, 60, 70, 19);
+		panel_10.add(textFieldSetting8_3);
 		
 		JLabel lblNewLabel_10_14 = new JLabel("dBm");
 		lblNewLabel_10_14.setBounds(250, 14, 50, 13);
@@ -866,7 +873,7 @@ public class Screen extends JFrame {
 		input.add(btnNewButton_4);
 
 		JPanel panel_11 = new JPanel();
-		panel_11.setBounds(10, 40, 752, 382);
+		panel_11.setBounds(10, 40, 752, 337);
 		input.add(panel_11);
 		panel_11.setLayout(new BoxLayout(panel_11, BoxLayout.X_AXIS));
 
@@ -951,13 +958,14 @@ public class Screen extends JFrame {
 		textFieldIn5.setColumns(10);
 
 		JButton btnNewButton_32 = new JButton("Reload");
-		btnNewButton_32.setBounds(79, 10, 91, 21);
+		btnNewButton_32.setBounds(169, 10, 91, 21);
 		input.add(btnNewButton_32);
 
 		btnNewButton_32.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
+					iniTextFieldIn();
 					twsc.sendSpin();
 				}
 				catch(Exception ex) {}
@@ -978,7 +986,7 @@ public class Screen extends JFrame {
 		output.add(label_1);
 
 		JPanel panel_14 = new JPanel();
-		panel_14.setBounds(10, 40, 752, 382);
+		panel_14.setBounds(10, 40, 752, 347);
 		output.add(panel_14);
 		panel_14.setLayout(new BoxLayout(panel_14, BoxLayout.X_AXIS));
 
@@ -1063,13 +1071,14 @@ public class Screen extends JFrame {
 		textFieldOut8.setColumns(10);
 
 		JButton btnNewButton_31 = new JButton("Reload");
-		btnNewButton_31.setBounds(79, 10, 91, 21);
+		btnNewButton_31.setBounds(168, 10, 91, 21);
 		output.add(btnNewButton_31);
 
 		btnNewButton_31.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
+					iniTextFieldOut();
 				twsc.sendSpout();
 			}
 			catch(Exception ex){}
@@ -1260,15 +1269,7 @@ public class Screen extends JFrame {
 			}
 		});
 	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
-
+	
 	public void iniTextFieldIn(){
 		this.textFieldIn1.setText("");
 		this.textFieldIn2.setText("");

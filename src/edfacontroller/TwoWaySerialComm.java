@@ -4,25 +4,15 @@ import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TwoWaySerialComm
 {
-	private static Screen sc;
 	private static InputStream in;
 	private static OutputStream out;
-	public TwoWaySerialComm(Screen sc)
-	{
-		super();
-		TwoWaySerialComm.sc = sc;
-	}
 
 	void connect ( String portName ) throws Exception
 	{
@@ -82,15 +72,11 @@ public class TwoWaySerialComm
 		}
 	}
 
-	public void sendPump(String cmd){
+	public String sendPump(String cmd){
 		sendCommand("pump " + cmd +"\n");
 		String res = readResponse();
 		System.out.println(res);
-
-		String[] split = res.split("\n");
-		for(int i = 0; i < split.length; i++){
-			sc.setTextFieldPump(split[i], i+1);
-		}
+		return res;
 	}
 
 	public void sendVer() throws IOException {
@@ -99,34 +85,24 @@ public class TwoWaySerialComm
 		System.out.println(res);
 	}
 
-	public void sendSpin() throws IOException {
+	public String sendSpin() throws IOException {
 		sendCommand("spin\n");
 
-		sc.iniTextFieldIn();
-
 		String res = readResponse();
 
 		System.out.println(res);
-
-		String[] split = res.split("\n");
-		for(int i = 0; i < split.length; i++) {
-			sc.setTextFieldIn(split[i], i+1);
-		}
+		
+		return res;
 	}
 
-	public void sendSpout() throws IOException{
+	public String sendSpout() throws IOException{
 		sendCommand("spout\n");
-
-		sc.iniTextFieldOut();
 
 		String res = readResponse();
 
 		System.out.println(res);
-
-		String[] split = res.split("\n");
-		for(int i = 0; i < split.length; i++) {
-			sc.setTextFieldOut(split[i], i+1);
-		}
+		
+		return res;
 	}
 
 	public void gain(String port, double d){
