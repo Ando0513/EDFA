@@ -23,7 +23,7 @@ This is a software to control 8 arrayed EDFA.
 <img src=img/top.png>
 
  * Multiple View
-<img src=img/multipleOutput.png>
+<img src=img/multipleOut.png>
  
  * Output
 <img src=img/output.png>
