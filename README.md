@@ -10,7 +10,7 @@ This is a software to control 8 arrayed EDFA.
  * Manual gaining by mV.
  
 ## Requirement
- * EDFA System
+ * EDFA System (allow IEC 61291-6-1:2008 ED1 command set)
  * outlet 100v AC
  
  When you need to software update,
