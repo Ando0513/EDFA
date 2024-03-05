@@ -15,23 +15,36 @@ This is a software to control 8 arrayed EDFA.
  
  When you need to software update,
  * Network connection
+ 
+## Hardware construction
+
+<img src=img/circuit.png>
+
+## Software construction
+
+<img src=img/classDiagram.drawio.png>
 
 ## Usage
  There are 4 panel.
  
  * Top
+ 
 <img src=img/top.png>
 
  * Multiple View
+ 
 <img src=img/multipleOut.png>
  
  * Output
+ 
 <img src=img/output.png>
 
  * Input
+ 
 <img src=img/input.png>
 
  * Setting
+ 
 <img src=img/setting.png>
 
 ## Reference
