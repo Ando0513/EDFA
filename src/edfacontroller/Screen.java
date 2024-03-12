@@ -28,6 +28,12 @@ public class Screen extends JFrame {
 
 	private static TwoWaySerialComm twsc;
 	private JPanel contentPane;
+	private JPanel starting;
+	private JPanel pumpinfo;
+	private JPanel setting;
+	private JPanel input;
+	private JPanel output;
+	
 	private JTextField errorCodeStart;
 	private JTextField textFieldPump1;
 	private JTextField textFieldPump2;
@@ -126,34 +132,33 @@ public class Screen extends JFrame {
 		setTitle("EDFA Controller");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 432);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new CardLayout(0, 0));
+		this.contentPane = new JPanel();
+		setContentPane(this.contentPane);
+		this.contentPane.setLayout(new CardLayout(0, 0));
 
-		JPanel starting = new JPanel();
-		contentPane.add(starting, "starting");
-		starting.setLayout(null);
+		this.starting = new JPanel();
+		this.contentPane.add(this.starting, "starting");
+		this.starting.setLayout(null);
 
 		JButton btnNewButton = new JButton("Connect");
 		btnNewButton.setBounds(286, 144, 190, 99);
-		starting.add(btnNewButton);
+		this.starting.add(btnNewButton);
 
 		Label label_2 = new Label("EDFA Controller v3.6α");
 		label_2.setBounds(10, 321, 300, 56);
-		starting.add(label_2);
+		this.starting.add(label_2);
 		
 		errorCodeStart = new JTextField();
 		errorCodeStart.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		errorCodeStart.setHorizontalAlignment(SwingConstants.CENTER);
 		//errorCodeStart.setForeground(Color.RED);
 		errorCodeStart.setBounds(256, 253, 264, 40);
-		starting.add(errorCodeStart);
+		this.starting.add(errorCodeStart);
 		errorCodeStart.setColumns(10);
 
-		JPanel pumpinfo = new JPanel();
-		contentPane.add(pumpinfo, "pumpInfo");
-		pumpinfo.setLayout(null);
+		this.pumpinfo = new JPanel();
+		contentPane.add(this.pumpinfo, "pumpInfo");
+		this.pumpinfo.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Pump Info");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -229,9 +234,9 @@ public class Screen extends JFrame {
 		btnNewButton_29.setBounds(671, 38, 91, 21);
 		pumpinfo.add(btnNewButton_29);
 
-		JPanel setting = new JPanel();
-		contentPane.add(setting, "setting");
-		setting.setLayout(null);
+		this.setting = new JPanel();
+		contentPane.add(this.setting, "setting");
+		this.setting.setLayout(null);
 
 		JLabel lblNewLabel_1 = new JLabel("Setting");
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
@@ -868,22 +873,22 @@ public class Screen extends JFrame {
 			}
 		});
 
-		JPanel input = new JPanel();
-		contentPane.add(input, "input");
-		input.setLayout(null);
+		this.input = new JPanel();
+		contentPane.add(this.input, "input");
+		this.input.setLayout(null);
 
 		Label label = new Label("Input");
 		label.setFont(new Font("Arial", Font.BOLD, 18));
 		label.setBounds(10, 8, 64, 23);
-		input.add(label);
+		this.input.add(label);
 
 		JButton btnNewButton_4 = new JButton("Back");
 		btnNewButton_4.setBounds(703, 10, 68, 21);
-		input.add(btnNewButton_4);
+		this.input.add(btnNewButton_4);
 
 		JPanel panel_11 = new JPanel();
 		panel_11.setBounds(10, 40, 752, 337);
-		input.add(panel_11);
+		this.input.add(panel_11);
 		panel_11.setLayout(new BoxLayout(panel_11, BoxLayout.X_AXIS));
 
 		JPanel panel_13 = new JPanel();
@@ -981,22 +986,22 @@ public class Screen extends JFrame {
 				}
 		});
 
-		JPanel output = new JPanel();
+		this.output = new JPanel();
 		contentPane.add(output, "output");
-		output.setLayout(null);
+		this.output.setLayout(null);
 
 		JButton btnNewButton_30 = new JButton("Back");
 		btnNewButton_30.setBounds(703, 10, 68, 21);
-		output.add(btnNewButton_30);
+		this.output.add(btnNewButton_30);
 
 		Label label_1 = new Label("Output");
 		label_1.setFont(new Font("Arial", Font.BOLD, 18));
 		label_1.setBounds(10, 8, 69, 23);
-		output.add(label_1);
+		this.output.add(label_1);
 
 		JPanel panel_14 = new JPanel();
 		panel_14.setBounds(10, 40, 752, 347);
-		output.add(panel_14);
+		this.output.add(panel_14);
 		panel_14.setLayout(new BoxLayout(panel_14, BoxLayout.X_AXIS));
 
 		JPanel panel_16 = new JPanel();
@@ -1081,7 +1086,7 @@ public class Screen extends JFrame {
 
 		JButton btnNewButton_31 = new JButton("Reload");
 		btnNewButton_31.setBounds(168, 10, 91, 21);
-		output.add(btnNewButton_31);
+		this.output.add(btnNewButton_31);
 
 		btnNewButton_31.addActionListener(new ActionListener() {
 			@Override
@@ -1097,7 +1102,8 @@ public class Screen extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+//				CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
+//	    		cl.show(Screen.this.contentPane, "pumpInfo");
 				try{
 					
 					//twsc.sendCommand("rst/n");
@@ -1297,6 +1303,7 @@ public class Screen extends JFrame {
 			  String str;
 		      public void actionPerformed(ActionEvent evt) {
 		          //...Perform a task...
+		    	  
 		    	  if (cnt > 0) {
 		    		  switch(cnt%4) {
 		    		  case 0:
@@ -1314,13 +1321,15 @@ public class Screen extends JFrame {
 		    		  }
 		    		  errorCodeStart.setText(str);
 		    		  cnt--;
-		    	  }else {
-		    		  CardLayout cl = (CardLayout)(contentPane.getLayout());
-		    		  cl.show(contentPane, "pumpInfo");
+		    		  if (cnt == 0){
+		    		  CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
+		    		  cl.show(Screen.this.contentPane, "pumpInfo");
+		    		  }
 		    	  }
 		      }
 		  };
 		  new Timer(delay, taskPerformer).start();
+		  
 	}
 	
 	public void iniTextFieldIn(){
