@@ -10,7 +10,7 @@ This is a software to control 8 arrayed EDFA.
  * Manual gaining by mV.
  
 ## Requirement
- * EDFA System (allow IEC 61291-6-1:2008 ED1 command set)
+ * EDFA System (follow IEC 61291-6-1:2008 ED1 command set)
  * outlet 100v AC
  
  When you need to software update,
@@ -48,6 +48,9 @@ This is a software to control 8 arrayed EDFA.
 <img src=img/setting.png>
 
 ## Reference
+
+日本工業規格,「光増幅器− 第6-1部：インタフェース−コマンドセット Optical amplifiers-Part 6-1: Interfaces-Command set」,
+https://kikakurui.com/c6/C6121-6-1-2013-01.html
 
 ## Author
 [name] Ando Yuki

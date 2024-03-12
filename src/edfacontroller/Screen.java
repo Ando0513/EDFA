@@ -17,15 +17,18 @@ import java.awt.Label;
 import javax.swing.BoxLayout;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Screen extends JFrame {
 
 	private static TwoWaySerialComm twsc;
 	private JPanel contentPane;
+	private JTextField errorCodeStart;
 	private JTextField textFieldPump1;
 	private JTextField textFieldPump2;
 	private JTextField textFieldPump3;
@@ -88,6 +91,8 @@ public class Screen extends JFrame {
 	* Launch the application.
 	*/
 	public static void main(String[] args) {
+		final String PORT_NAME = "/dev/ttyUSB0";
+		final int SPEED = 115200;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -95,7 +100,7 @@ public class Screen extends JFrame {
 					Screen frame = new Screen();
 					frame.setVisible(true);
 					twsc = new TwoWaySerialComm();
-					twsc.connect("/dev/ttyUSB0");
+					twsc.connect(SPEED, PORT_NAME);
 					res = twsc.sendSpin();
 					String[] split = res.split("\n");
 					for(int i = 0; i < split.length; i++) {
@@ -131,17 +136,20 @@ public class Screen extends JFrame {
 		starting.setLayout(null);
 
 		JButton btnNewButton = new JButton("Connect");
-		btnNewButton.setBounds(286, 146, 190, 99);
+		btnNewButton.setBounds(286, 144, 190, 99);
 		starting.add(btnNewButton);
 
 		Label label_2 = new Label("EDFA Controller v3.6α");
-		label_2.setBounds(0, 355, 300, 32);
+		label_2.setBounds(10, 321, 300, 56);
 		starting.add(label_2);
 		
-		JLabel errorCodeStart = new JLabel("");
-		errorCodeStart.setForeground(Color.RED);
-		errorCodeStart.setBounds(286, 355, 190, 13);
+		errorCodeStart = new JTextField();
+		errorCodeStart.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		errorCodeStart.setHorizontalAlignment(SwingConstants.CENTER);
+		//errorCodeStart.setForeground(Color.RED);
+		errorCodeStart.setBounds(256, 253, 264, 40);
 		starting.add(errorCodeStart);
+		errorCodeStart.setColumns(10);
 
 		JPanel pumpinfo = new JPanel();
 		contentPane.add(pumpinfo, "pumpInfo");
@@ -1089,15 +1097,25 @@ public class Screen extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "pumpInfo");
+				
+				try{
+					
+					//twsc.sendCommand("rst/n");
+					//twsc.sendCommand("boot/n");
+					bootCount();
+				}
+				catch(Exception e1) {
+					errorCodeStart.setText("Error");
+					System.out.print(e1.toString());
+				}
 			}
 		});
+		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "setting");
+				cl.show(contentPane, "setting");               
 			}
 		});
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -1269,6 +1287,40 @@ public class Screen extends JFrame {
 				cl.show(contentPane, "pumpInfo");
 			}
 		});
+	}
+	
+	public void bootCount() throws Exception {
+		 int delay = 100; //milliseconds
+		 
+		  ActionListener taskPerformer = new ActionListener() {
+			  int cnt = 100;
+			  String str;
+		      public void actionPerformed(ActionEvent evt) {
+		          //...Perform a task...
+		    	  if (cnt > 0) {
+		    		  switch(cnt%4) {
+		    		  case 0:
+		    			  str = "Starting -";
+		    			  break;
+		    		  case 1:
+		    			  str = "Starting \\";
+		    			  break;
+		    		  case 2:
+		    			  str = "Starting |";
+		    			  break;
+		    		  case 3: 
+		    			  str = "Starting /";
+		    			  break;
+		    		  }
+		    		  errorCodeStart.setText(str);
+		    		  cnt--;
+		    	  }else {
+		    		  CardLayout cl = (CardLayout)(contentPane.getLayout());
+		    		  cl.show(contentPane, "pumpInfo");
+		    	  }
+		      }
+		  };
+		  new Timer(delay, taskPerformer).start();
 	}
 	
 	public void iniTextFieldIn(){

@@ -14,7 +14,7 @@ public class TwoWaySerialComm
 	private static InputStream in;
 	private static OutputStream out;
 
-	void connect ( String portName ) throws Exception
+	void connect (int speed, String portName ) throws Exception
 	{
 		CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
 		if ( portIdentifier.isCurrentlyOwned() )
@@ -28,7 +28,7 @@ public class TwoWaySerialComm
 			if ( commPort instanceof SerialPort )
 			{
 				SerialPort serialPort = (SerialPort) commPort;
-				serialPort.setSerialPortParams(115200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+				serialPort.setSerialPortParams(speed,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
 
 				in = serialPort.getInputStream();
 				out = serialPort.getOutputStream();
@@ -134,8 +134,7 @@ public class TwoWaySerialComm
 		catch(IOException e){}
 	}
 
-	/** */
-	public static class SerialReader implements Runnable
+	public static class SerialReader implements Runnable// for  debug
 	{
 		private static InputStream in;
 
@@ -162,12 +161,7 @@ public class TwoWaySerialComm
 		}
 	}
 
-
-
-
-
-	/** */
-	public static class SerialWriter implements Runnable
+	public static class SerialWriter implements Runnable// for  debug
 	{
 		OutputStream out;
 
