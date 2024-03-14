@@ -1150,17 +1150,17 @@ public class Screen extends JFrame {
 				try {
 					//runtime.exec("sudo shutdown now");
 					String[] command = {
-							"sh ",
-							"-c ",
-							"sudo ",
-							"shutdown ",
-							"now ",
-							"| ",
-							"echo ",
+							"sh",
+							"-c",
+							"sudo",
+							"shutdown",
+							"now",
+							"|",
+							"echo",
 					"raspberry"};
-					runtime.exec(command);
-					//p.waitFor();
-				} catch (IOException e1) {
+					Process p = runtime.exec(command);
+					p.waitFor();
+				} catch (IOException | InterruptedException e1) {
 					e1.printStackTrace();
 				}finally {
 					System.exit(0);
