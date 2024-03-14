@@ -1152,6 +1152,7 @@ public class Screen extends JFrame {
 					String[] command = {
 							"sh",
 							"-c",
+							"sudo",
 							"shutdown",
 							"now",
 							"echo",
