@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.awt.event.ItemEvent;
 
 import javax.swing.JFrame;
@@ -22,6 +23,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.SwingConstants;
 
 public class Screen extends JFrame {
@@ -33,7 +37,7 @@ public class Screen extends JFrame {
 	private JPanel setting;
 	private JPanel input;
 	private JPanel output;
-	
+
 	private JTextField errorCodeStart;
 	private JTextField textFieldPump1;
 	private JTextField textFieldPump2;
@@ -92,19 +96,24 @@ public class Screen extends JFrame {
 	private JTextField textFieldSetting7_3;
 	private JTextField textFieldSetting8_3;
 
-	
+
 	/**
-	* Launch the application.
-	*/
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		final String PORT_NAME = "/dev/ttyUSB0";
+		//final String PORT_NAME = "COM3"; // for debag
 		final int SPEED = 115200;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					String res;
 					Screen frame = new Screen();
+					GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+					GraphicsDevice gd = ge.getDefaultScreenDevice();
+					gd.setFullScreenWindow(frame);
 					frame.setVisible(true);
+
 					twsc = new TwoWaySerialComm();
 					twsc.connect(SPEED, PORT_NAME);
 					res = twsc.sendSpin();
@@ -120,14 +129,15 @@ public class Screen extends JFrame {
 					twsc.sendPump("EOL");
 				} catch (Exception e) {
 					e.printStackTrace();
+					//System.exit(1);
 				}
 			}
 		});
 	}
 
 	/**
-	* Create the frame.
-	*/
+	 * Create the frame.
+	 */
 	public Screen() {
 		setTitle("EDFA Controller");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -147,7 +157,7 @@ public class Screen extends JFrame {
 		Label label_2 = new Label("EDFA Controller v3.6α");
 		label_2.setBounds(10, 321, 300, 56);
 		this.starting.add(label_2);
-		
+
 		errorCodeStart = new JTextField();
 		errorCodeStart.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		errorCodeStart.setHorizontalAlignment(SwingConstants.CENTER);
@@ -234,6 +244,14 @@ public class Screen extends JFrame {
 		btnNewButton_29.setBounds(671, 38, 91, 21);
 		pumpinfo.add(btnNewButton_29);
 
+		JButton powerButton = new JButton("Power Off");
+		powerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		powerButton.setBounds(659, 313, 103, 64);
+		pumpinfo.add(powerButton);
+
 		this.setting = new JPanel();
 		contentPane.add(this.setting, "setting");
 		this.setting.setLayout(null);
@@ -298,24 +316,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS1 = new JButton("SET");
 		btnNewButtonS1.setBounds(285, 35, 80, 21);
 		panel_3.add(btnNewButtonS1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("EDFA1");
 		lblNewLabel_2.setBounds(12, 10, 50, 13);
 		panel_3.add(lblNewLabel_2);
-		
+
 		textFieldSetting1_3 = new JTextField();
 		textFieldSetting1_3.setColumns(10);
 		textFieldSetting1_3.setBounds(180, 60, 70, 19);
 		panel_3.add(textFieldSetting1_3);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("dBm");
 		lblNewLabel_10.setBounds(250, 14, 50, 13);
 		panel_3.add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_10_1 = new JLabel("dBm");
 		lblNewLabel_10_1.setBounds(250, 39, 50, 13);
 		panel_3.add(lblNewLabel_10_1);
-		
+
 		JLabel lblNewLabel_10_24 = new JLabel("mV");
 		lblNewLabel_10_24.setBounds(250, 66, 50, 13);
 		panel_3.add(lblNewLabel_10_24);
@@ -374,24 +392,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS2 = new JButton("SET");
 		btnNewButtonS2.setBounds(285, 35, 80, 21);
 		panel_5.add(btnNewButtonS2);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("EDFA2");
 		lblNewLabel_3.setBounds(12, 10, 50, 13);
 		panel_5.add(lblNewLabel_3);
-		
+
 		textFieldSetting2_3 = new JTextField();
 		textFieldSetting2_3.setColumns(10);
 		textFieldSetting2_3.setBounds(180, 60, 70, 19);
 		panel_5.add(textFieldSetting2_3);
-		
+
 		JLabel lblNewLabel_10_2 = new JLabel("dBm");
 		lblNewLabel_10_2.setBounds(250, 14, 50, 13);
 		panel_5.add(lblNewLabel_10_2);
-		
+
 		JLabel lblNewLabel_10_3 = new JLabel("dBm");
 		lblNewLabel_10_3.setBounds(250, 39, 50, 13);
 		panel_5.add(lblNewLabel_10_3);
-		
+
 		JLabel lblNewLabel_10_24_1 = new JLabel("mV");
 		lblNewLabel_10_24_1.setBounds(250, 66, 50, 13);
 		panel_5.add(lblNewLabel_10_24_1);
@@ -450,24 +468,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS3 = new JButton("SET");
 		btnNewButtonS3.setBounds(285, 35, 80, 21);
 		panel_7.add(btnNewButtonS3);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("EDFA3");
 		lblNewLabel_4.setBounds(12, 10, 50, 13);
 		panel_7.add(lblNewLabel_4);
-		
+
 		textFieldSetting3_3 = new JTextField();
 		textFieldSetting3_3.setColumns(10);
 		textFieldSetting3_3.setBounds(180, 60, 70, 19);
 		panel_7.add(textFieldSetting3_3);
-		
+
 		JLabel lblNewLabel_10_4 = new JLabel("dBm");
 		lblNewLabel_10_4.setBounds(250, 14, 50, 13);
 		panel_7.add(lblNewLabel_10_4);
-		
+
 		JLabel lblNewLabel_10_5 = new JLabel("dBm");
 		lblNewLabel_10_5.setBounds(250, 39, 50, 13);
 		panel_7.add(lblNewLabel_10_5);
-		
+
 		JLabel lblNewLabel_10_24_2 = new JLabel("mV");
 		lblNewLabel_10_24_2.setBounds(250, 66, 50, 13);
 		panel_7.add(lblNewLabel_10_24_2);
@@ -526,24 +544,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS4 = new JButton("SET");
 		btnNewButtonS4.setBounds(285, 35, 80, 21);
 		panel_9.add(btnNewButtonS4);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("EDFA4");
 		lblNewLabel_5.setBounds(12, 10, 50, 13);
 		panel_9.add(lblNewLabel_5);
-		
+
 		textFieldSetting4_3 = new JTextField();
 		textFieldSetting4_3.setColumns(10);
 		textFieldSetting4_3.setBounds(180, 60, 70, 19);
 		panel_9.add(textFieldSetting4_3);
-		
+
 		JLabel lblNewLabel_10_6 = new JLabel("dBm");
 		lblNewLabel_10_6.setBounds(249, 14, 50, 13);
 		panel_9.add(lblNewLabel_10_6);
-		
+
 		JLabel lblNewLabel_10_7 = new JLabel("dBm");
 		lblNewLabel_10_7.setBounds(249, 39, 50, 13);
 		panel_9.add(lblNewLabel_10_7);
-		
+
 		JLabel lblNewLabel_10_24_3 = new JLabel("mV");
 		lblNewLabel_10_24_3.setBounds(249, 66, 50, 13);
 		panel_9.add(lblNewLabel_10_24_3);
@@ -606,24 +624,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS5 = new JButton("SET");
 		btnNewButtonS5.setBounds(285, 35, 80, 21);
 		panel_4.add(btnNewButtonS5);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("EDFA5");
 		lblNewLabel_6.setBounds(12, 10, 50, 13);
 		panel_4.add(lblNewLabel_6);
-		
+
 		textFieldSetting5_3 = new JTextField();
 		textFieldSetting5_3.setColumns(10);
 		textFieldSetting5_3.setBounds(180, 60, 70, 19);
 		panel_4.add(textFieldSetting5_3);
-		
+
 		JLabel lblNewLabel_10_8 = new JLabel("dBm");
 		lblNewLabel_10_8.setBounds(250, 14, 50, 13);
 		panel_4.add(lblNewLabel_10_8);
-		
+
 		JLabel lblNewLabel_10_9 = new JLabel("dBm");
 		lblNewLabel_10_9.setBounds(250, 39, 50, 13);
 		panel_4.add(lblNewLabel_10_9);
-		
+
 		JLabel lblNewLabel_10_24_4 = new JLabel("mV");
 		lblNewLabel_10_24_4.setBounds(250, 66, 50, 13);
 		panel_4.add(lblNewLabel_10_24_4);
@@ -682,24 +700,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS6 = new JButton("SET");
 		btnNewButtonS6.setBounds(285, 35, 80, 21);
 		panel_6.add(btnNewButtonS6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("EDFA6");
 		lblNewLabel_7.setBounds(12, 10, 50, 13);
 		panel_6.add(lblNewLabel_7);
-		
+
 		textFieldSetting6_3 = new JTextField();
 		textFieldSetting6_3.setColumns(10);
 		textFieldSetting6_3.setBounds(180, 60, 70, 19);
 		panel_6.add(textFieldSetting6_3);
-		
+
 		JLabel lblNewLabel_10_10 = new JLabel("dBm");
 		lblNewLabel_10_10.setBounds(250, 14, 50, 13);
 		panel_6.add(lblNewLabel_10_10);
-		
+
 		JLabel lblNewLabel_10_11 = new JLabel("dBm");
 		lblNewLabel_10_11.setBounds(250, 39, 50, 13);
 		panel_6.add(lblNewLabel_10_11);
-		
+
 		JLabel lblNewLabel_10_24_5 = new JLabel("mV");
 		lblNewLabel_10_24_5.setBounds(250, 66, 50, 13);
 		panel_6.add(lblNewLabel_10_24_5);
@@ -758,24 +776,24 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS7 = new JButton("SET");
 		btnNewButtonS7.setBounds(285, 35, 80, 21);
 		panel_8.add(btnNewButtonS7);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("EDFA7");
 		lblNewLabel_8.setBounds(12, 10, 50, 13);
 		panel_8.add(lblNewLabel_8);
-		
+
 		textFieldSetting7_3 = new JTextField();
 		textFieldSetting7_3.setColumns(10);
 		textFieldSetting7_3.setBounds(180, 60, 70, 19);
 		panel_8.add(textFieldSetting7_3);
-		
+
 		JLabel lblNewLabel_10_12 = new JLabel("dBm");
 		lblNewLabel_10_12.setBounds(250, 14, 50, 13);
 		panel_8.add(lblNewLabel_10_12);
-		
+
 		JLabel lblNewLabel_10_13 = new JLabel("dBm");
 		lblNewLabel_10_13.setBounds(250, 39, 50, 13);
 		panel_8.add(lblNewLabel_10_13);
-		
+
 		JLabel lblNewLabel_10_24_6 = new JLabel("mV");
 		lblNewLabel_10_24_6.setBounds(250, 66, 50, 13);
 		panel_8.add(lblNewLabel_10_24_6);
@@ -834,28 +852,28 @@ public class Screen extends JFrame {
 		JButton btnNewButtonS8 = new JButton("SET");
 		btnNewButtonS8.setBounds(285, 35, 80, 21);
 		panel_10.add(btnNewButtonS8);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("EDFA8");
 		lblNewLabel_9.setBounds(12, 12, 50, 13);
 		panel_10.add(lblNewLabel_9);
-		
+
 		textFieldSetting8_3 = new JTextField();
 		textFieldSetting8_3.setColumns(10);
 		textFieldSetting8_3.setBounds(180, 60, 70, 19);
 		panel_10.add(textFieldSetting8_3);
-		
+
 		JLabel lblNewLabel_10_14 = new JLabel("dBm");
 		lblNewLabel_10_14.setBounds(250, 14, 50, 13);
 		panel_10.add(lblNewLabel_10_14);
-		
+
 		JLabel lblNewLabel_10_15 = new JLabel("dBm");
 		lblNewLabel_10_15.setBounds(250, 39, 50, 13);
 		panel_10.add(lblNewLabel_10_15);
-		
+
 		JLabel lblNewLabel_10_24_7 = new JLabel("mV");
 		lblNewLabel_10_24_7.setBounds(250, 66, 50, 13);
 		panel_10.add(lblNewLabel_10_24_7);
-		
+
 		JLabel errorCode = new JLabel("");
 		errorCode.setForeground(Color.RED);
 		errorCode.setBounds(110, 11, 470, 13);
@@ -983,7 +1001,7 @@ public class Screen extends JFrame {
 					twsc.sendSpin();
 				}
 				catch(Exception ex) {}
-				}
+			}
 		});
 
 		this.output = new JPanel();
@@ -1093,21 +1111,21 @@ public class Screen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					iniTextFieldOut();
-				twsc.sendSpout();
-			}
-			catch(Exception ex){}
+					twsc.sendSpout();
+				}
+				catch(Exception ex){}
 			}
 		});
 
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
-//	    		cl.show(Screen.this.contentPane, "pumpInfo");
+				//				CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
+				//	    		cl.show(Screen.this.contentPane, "pumpInfo");
 				try{
-					
-					//twsc.sendCommand("rst/n");
-					//twsc.sendCommand("boot/n");
+
+					twsc.sendCommand("rst\n");
+					twsc.sendCommand("boot\n");
 					bootCount();
 				}
 				catch(Exception e1) {
@@ -1116,12 +1134,35 @@ public class Screen extends JFrame {
 				}
 			}
 		});
-		
+
 		btnNewButton_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)(contentPane.getLayout());
 				cl.show(contentPane, "setting");               
+			}
+		});
+
+		powerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Runtime runtime = Runtime.getRuntime();
+				try {
+					//runtime.exec("sudo shutdown now");
+					String[] command = {
+							"sh",
+							"-c",
+							"shutdown",
+							"now",
+							"echo",
+					"raspberry"};
+					runtime.exec(command);
+					//p.waitFor();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}finally {
+					System.exit(0);
+				}
 			}
 		});
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -1148,7 +1189,7 @@ public class Screen extends JFrame {
 		btnNewButton_5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a1 a/n");
+				twsc.sendCommand("slos a1 a\n");
 				btnNewButton_5.setForeground(Color.RED);
 				btnNewButton_6.setForeground(Color.BLACK);
 			}
@@ -1156,7 +1197,7 @@ public class Screen extends JFrame {
 		btnNewButton_6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a1 n/n");
+				twsc.sendCommand("slos a1 n\n");
 				btnNewButton_6.setForeground(Color.RED);
 				btnNewButton_5.setForeground(Color.BLACK);
 			}
@@ -1164,7 +1205,7 @@ public class Screen extends JFrame {
 		btnNewButton_8.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a2 a/n");
+				twsc.sendCommand("slos a2 a\n");
 				btnNewButton_8.setForeground(Color.RED);
 				btnNewButton_9.setForeground(Color.BLACK);
 			}
@@ -1172,7 +1213,7 @@ public class Screen extends JFrame {
 		btnNewButton_9.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a2 n/n");
+				twsc.sendCommand("slos a2 n\n");
 				btnNewButton_9.setForeground(Color.RED);
 				btnNewButton_8.setForeground(Color.BLACK);
 			}
@@ -1181,7 +1222,7 @@ public class Screen extends JFrame {
 		btnNewButton_11.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a3 a/n");
+				twsc.sendCommand("slos a3 a\n");
 				btnNewButton_11.setForeground(Color.RED);
 				btnNewButton_12.setForeground(Color.BLACK);
 			}
@@ -1189,7 +1230,7 @@ public class Screen extends JFrame {
 		btnNewButton_12.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a3 n/n");
+				twsc.sendCommand("slos a3 n\n");
 				btnNewButton_12.setForeground(Color.RED);
 				btnNewButton_11.setForeground(Color.BLACK);
 			}
@@ -1198,7 +1239,7 @@ public class Screen extends JFrame {
 		btnNewButton_14.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a4 a/n");
+				twsc.sendCommand("slos a4 a\n");
 				btnNewButton_14.setForeground(Color.RED);
 				btnNewButton_15.setForeground(Color.BLACK);
 			}
@@ -1206,7 +1247,7 @@ public class Screen extends JFrame {
 		btnNewButton_15.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a4 n/n");
+				twsc.sendCommand("slos a4 n\n");
 				btnNewButton_15.setForeground(Color.RED);
 				btnNewButton_14.setForeground(Color.BLACK);
 			}
@@ -1215,7 +1256,7 @@ public class Screen extends JFrame {
 		btnNewButton_17.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a5 a/n");
+				twsc.sendCommand("slos a5 a\n");
 				btnNewButton_17.setForeground(Color.RED);
 				btnNewButton_18.setForeground(Color.BLACK);
 			}
@@ -1223,7 +1264,7 @@ public class Screen extends JFrame {
 		btnNewButton_18.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a5 n/n");
+				twsc.sendCommand("slos a5 n\n");
 				btnNewButton_18.setForeground(Color.RED);
 				btnNewButton_17.setForeground(Color.BLACK);
 			}
@@ -1234,13 +1275,13 @@ public class Screen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				btnNewButton_20.setForeground(Color.RED);
 				btnNewButton_21.setForeground(Color.BLACK);
-				twsc.sendCommand("slos a6 a/n");
+				twsc.sendCommand("slos a6 a\n");
 			}
 		});
 		btnNewButton_21.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a6 n/n");
+				twsc.sendCommand("slos a6 n\n");
 				btnNewButton_21.setForeground(Color.RED);
 				btnNewButton_20.setForeground(Color.BLACK);
 			}
@@ -1249,7 +1290,7 @@ public class Screen extends JFrame {
 		btnNewButton_23.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a7 a/n");
+				twsc.sendCommand("slos a7 a\n");
 				btnNewButton_23.setForeground(Color.RED);
 				btnNewButton_24.setForeground(Color.BLACK);
 			}
@@ -1257,7 +1298,7 @@ public class Screen extends JFrame {
 		btnNewButton_24.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a7 n/n");
+				twsc.sendCommand("slos a7 n\n");
 				btnNewButton_24.setForeground(Color.RED);
 				btnNewButton_23.setForeground(Color.BLACK);
 			}
@@ -1266,7 +1307,7 @@ public class Screen extends JFrame {
 		btnNewButton_25.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a8 a/n");
+				twsc.sendCommand("slos a8 a\n");
 				btnNewButton_25.setForeground(Color.RED);
 				btnNewButton_26.setForeground(Color.BLACK);
 			}
@@ -1274,7 +1315,7 @@ public class Screen extends JFrame {
 		btnNewButton_26.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				twsc.sendCommand("slos a8 n/n");
+				twsc.sendCommand("slos a8 n\n");
 				btnNewButton_26.setForeground(Color.RED);
 				btnNewButton_25.setForeground(Color.BLACK);
 			}
@@ -1294,44 +1335,44 @@ public class Screen extends JFrame {
 			}
 		});
 	}
-	
+
 	public void bootCount() throws Exception {
-		 int delay = 100; //milliseconds
-		 
-		  ActionListener taskPerformer = new ActionListener() {
-			  int cnt = 100;
-			  String str;
-		      public void actionPerformed(ActionEvent evt) {
-		          //...Perform a task...
-		    	  
-		    	  if (cnt > 0) {
-		    		  switch(cnt%4) {
-		    		  case 0:
-		    			  str = "Starting -";
-		    			  break;
-		    		  case 1:
-		    			  str = "Starting \\";
-		    			  break;
-		    		  case 2:
-		    			  str = "Starting |";
-		    			  break;
-		    		  case 3: 
-		    			  str = "Starting /";
-		    			  break;
-		    		  }
-		    		  errorCodeStart.setText(str);
-		    		  cnt--;
-		    		  if (cnt == 0){
-		    		  CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
-		    		  cl.show(Screen.this.contentPane, "pumpInfo");
-		    		  }
-		    	  }
-		      }
-		  };
-		  new Timer(delay, taskPerformer).start();
-		  
+		int delay = 100; //milliseconds
+
+		ActionListener taskPerformer = new ActionListener() {
+			int cnt = 100;
+			String str;
+			public void actionPerformed(ActionEvent evt) {
+				//...Perform a task...
+
+				if (cnt > 0) {
+					switch(cnt%4) {
+					case 0:
+						str = "Starting -";
+						break;
+					case 1:
+						str = "Starting \\";
+						break;
+					case 2:
+						str = "Starting |";
+						break;
+					case 3: 
+						str = "Starting /";
+						break;
+					}
+					errorCodeStart.setText(str);
+					cnt--;
+					if (cnt == 0){
+						CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
+						cl.show(Screen.this.contentPane, "pumpInfo");
+					}
+				}
+			}
+		};
+		new Timer(delay, taskPerformer).start();
+
 	}
-	
+
 	public void iniTextFieldIn(){
 		this.textFieldIn1.setText("");
 		this.textFieldIn2.setText("");
@@ -1345,28 +1386,28 @@ public class Screen extends JFrame {
 
 	public void setTextFieldIn(String str, int i){
 		switch(i){
-			case 1:
+		case 1:
 			this.textFieldIn1.setText(str);
 			break;
-			case 2:
+		case 2:
 			this.textFieldIn2.setText(str);
 			break;
-			case 3:
+		case 3:
 			this.textFieldIn3.setText(str);
 			break;
-			case 4:
+		case 4:
 			this.textFieldIn4.setText(str);
 			break;
-			case 5:
+		case 5:
 			this.textFieldIn5.setText(str);
 			break;
-			case 6:
+		case 6:
 			this.textFieldIn6.setText(str);
 			break;
-			case 7:
+		case 7:
 			this.textFieldIn7.setText(str);
 			break;
-			case 8:
+		case 8:
 			this.textFieldIn8.setText(str);
 			break;
 		}
@@ -1385,28 +1426,28 @@ public class Screen extends JFrame {
 
 	public void setTextFieldPump(String str, int i){
 		switch(i){
-			case 1:
+		case 1:
 			this.textFieldPump1.setText(str);
 			break;
-			case 2:
+		case 2:
 			this.textFieldPump2.setText(str);
 			break;
-			case 3:
+		case 3:
 			this.textFieldPump3.setText(str);
 			break;
-			case 4:
+		case 4:
 			this.textFieldPump4.setText(str);
 			break;
-			case 5:
+		case 5:
 			this.textFieldPump5.setText(str);
 			break;
-			case 6:
+		case 6:
 			this.textFieldPump6.setText(str);
 			break;
-			case 7:
+		case 7:
 			this.textFieldPump7.setText(str);
 			break;
-			case 8:
+		case 8:
 			this.textFieldPump8.setText(str);
 			break;
 		}
@@ -1425,28 +1466,28 @@ public class Screen extends JFrame {
 
 	public void setTextFieldOut(String str, int i){
 		switch(i){
-			case 1:
+		case 1:
 			this.textFieldOut1.setText(str);
 			break;
-			case 2:
+		case 2:
 			this.textFieldOut2.setText(str);
 			break;
-			case 3:
+		case 3:
 			this.textFieldOut3.setText(str);
 			break;
-			case 4:
+		case 4:
 			this.textFieldOut4.setText(str);
 			break;
-			case 5:
+		case 5:
 			this.textFieldOut5.setText(str);
 			break;
-			case 6:
+		case 6:
 			this.textFieldOut6.setText(str);
 			break;
-			case 7:
+		case 7:
 			this.textFieldOut7.setText(str);
 			break;
-			case 8:
+		case 8:
 			this.textFieldOut8.setText(str);
 			break;
 		}

@@ -16,28 +16,32 @@ public class TwoWaySerialComm
 
 	void connect (int speed, String portName ) throws Exception
 	{
-		CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
-		if ( portIdentifier.isCurrentlyOwned() )
-		{
-			System.out.println("Error: Port is currently in use");
-		}
-		else
-		{
-			CommPort commPort = portIdentifier.open(this.getClass().getName(),2000);
-
-			if ( commPort instanceof SerialPort )
+		try {
+			CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+			if ( portIdentifier.isCurrentlyOwned() )
 			{
-				SerialPort serialPort = (SerialPort) commPort;
-				serialPort.setSerialPortParams(speed,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
-
-				in = serialPort.getInputStream();
-				out = serialPort.getOutputStream();
-
+				System.out.println("Error: Port is currently in use");
 			}
 			else
 			{
-				System.out.println("Error: Only serial ports are handled by this example.");
+				CommPort commPort = portIdentifier.open(this.getClass().getName(),2000);
+	
+				if ( commPort instanceof SerialPort )
+				{
+					SerialPort serialPort = (SerialPort) commPort;
+					serialPort.setSerialPortParams(speed,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+	
+					in = serialPort.getInputStream();
+					out = serialPort.getOutputStream();
+	
+				}
+				else
+				{
+					System.out.println("Error: Only serial ports are handled by this example.");
+				}
 			}
+		}catch(IOException e) {
+			throw e;
 		}
 	}
 

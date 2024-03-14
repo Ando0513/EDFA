@@ -1,5 +1,6 @@
 # EDFA Controller
 This is a software to control 8 arrayed EDFA.
+
 <img src=img/EDFA.jpg>
 ## Overview
  This controller is a controller for 8-array EDFA made by Java.
