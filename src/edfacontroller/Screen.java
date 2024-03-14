@@ -109,9 +109,9 @@ public class Screen extends JFrame {
 				try {
 					String res;
 					Screen frame = new Screen();
-
-
-
+					GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+					GraphicsDevice gd = ge.getDefaultScreenDevice();
+					gd.setFullScreenWindow(frame);
 					frame.setVisible(true);
 
 					twsc = new TwoWaySerialComm();
@@ -1124,8 +1124,8 @@ public class Screen extends JFrame {
 				//	    		cl.show(Screen.this.contentPane, "pumpInfo");
 				try{
 
-					twsc.sendCommand("rst\n");
-					twsc.sendCommand("boot\n");
+					//twsc.sendCommand("rst\n");
+					//twsc.sendCommand("boot\n");
 					bootCount();
 				}
 				catch(Exception e1) {
@@ -1338,13 +1338,11 @@ public class Screen extends JFrame {
 
 	public void bootCount() throws Exception {
 		int delay = 100; //milliseconds
-
 		ActionListener taskPerformer = new ActionListener() {
 			int cnt = 100;
 			String str;
 			public void actionPerformed(ActionEvent evt) {
 				//...Perform a task...
-
 				if (cnt > 0) {
 					switch(cnt%4) {
 					case 0:
@@ -1370,7 +1368,6 @@ public class Screen extends JFrame {
 			}
 		};
 		new Timer(delay, taskPerformer).start();
-
 	}
 
 	public void iniTextFieldIn(){
