@@ -116,10 +116,6 @@ public class Screen extends JFrame {
 
 					twsc = new TwoWaySerialComm();
 					twsc.connect(SPEED, PORT_NAME);
-					twsc.sendCommand((byte)0x01);//SOH
-                    Thread.sleep(1000);
-                    twsc.sendCommand((byte)0x18);//CAN
-                    Thread.sleep(5000);
 					res = twsc.sendSpin();
 					String[] split = res.split("\n");
 					for(int i = 0; i < split.length; i++) {
@@ -1129,8 +1125,10 @@ public class Screen extends JFrame {
 				try{
 
 					twsc.sendCommand("rst\n");
-					twsc.sendCommand("boot\n");
+					twsc.sendCommand((byte)0x01);//SOH
+                    twsc.sendCommand((byte)0x18);//CAN
 					bootCount();
+					
 				}
 				catch(Exception e1) {
 					errorCodeStart.setText("Error");
