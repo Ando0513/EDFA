@@ -127,7 +127,11 @@ public class Screen extends JFrame {
 					for(int i = 0; i < split1.length; i++) {
 						frame.setTextFieldOut(split1[i], i+1);
 					}
-					twsc.sendPump("EOL");
+					res = twsc.sendPump("EOL");
+					String[] split2 = res.split("\n");
+					for(int i = 0; i < split2.length; i++){
+						frame.setTextFieldPump(split2[i], i+1);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					//System.exit(1);
