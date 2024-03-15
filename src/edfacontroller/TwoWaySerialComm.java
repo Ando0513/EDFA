@@ -75,6 +75,16 @@ public class TwoWaySerialComm
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendCommand(byte b){
+        try{
+                        out.write(b);
+
+        }
+        catch( IOException e){
+                e.printStackTrace();
+        }
+}
 
 	public String sendPump(String cmd){
 		sendCommand("pump " + cmd +"\n");
