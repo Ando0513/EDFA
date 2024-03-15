@@ -118,10 +118,8 @@ public class Screen extends JFrame {
 					twsc.connect(SPEED, PORT_NAME);
 
 					res = twsc.sendSpin();
-					System.out.println("test:"+res);
 					String[] split = res.split("\n");
 					for(int i = 0; i < split.length; i++) {
-						System.out.println("insert"+i+split[i]);
 						frame.setTextFieldIn(split[i], i+1);
 					}
 					res = twsc.sendSpout();
@@ -1001,7 +999,11 @@ public class Screen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					iniTextFieldIn();
-					twsc.sendSpin();
+					String res = twsc.sendSpin();
+					String[] split = res.split("\n");
+					for(int i = 0; i < split.length; i++) {
+						setTextFieldIn(split[i], i+1);
+					}
 				}
 				catch(Exception ex) {}
 			}
@@ -1114,7 +1116,11 @@ public class Screen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					iniTextFieldOut();
-					twsc.sendSpout();
+					String res = twsc.sendSpout();
+					String[] split = res.split("\n");
+					for(int i = 0; i < split.length; i++) {
+						setTextFieldOut(split[i], i+1);
+					}
 				}
 				catch(Exception ex){}
 			}
