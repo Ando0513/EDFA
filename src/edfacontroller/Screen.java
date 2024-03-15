@@ -1127,6 +1127,7 @@ public class Screen extends JFrame {
 					twsc.sendCommand("rst\n");
 					twsc.sendCommand("boot\n");
 					bootCount();
+					twsc.sendPump("EOL");
 				}
 				catch(Exception e1) {
 					errorCodeStart.setText("Error");
