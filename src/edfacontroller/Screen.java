@@ -1348,7 +1348,7 @@ public class Screen extends JFrame {
 	public void bootCount() throws Exception {
 		int delay = 100; //milliseconds
 		ActionListener taskPerformer = new ActionListener() {
-			int cnt = 500;
+			int cnt = 10;
 			String str;
 			public void actionPerformed(ActionEvent evt) {
 				//...Perform a task...
