@@ -1134,6 +1134,7 @@ public class Screen extends JFrame {
 				try{
 
 					twsc.sendCommand("rst\n");
+					twsc.readResponse();
 					bootCount();
 					twsc.sendCommand((byte)0x01);//SOH
                     twsc.sendCommand((byte)0x18);//CAN
