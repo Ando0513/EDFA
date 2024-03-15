@@ -1155,7 +1155,19 @@ public class Screen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "setting");               
+				cl.show(contentPane, "setting");   
+				Runtime runtime = Runtime.getRuntime();
+				try {
+					String[] command = {
+							"sh",
+							"-c",
+							"matchbox-keyboard"};
+					Process p = runtime.exec(command);
+					p.waitFor();
+				} catch (IOException | InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 
