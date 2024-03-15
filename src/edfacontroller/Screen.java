@@ -118,6 +118,7 @@ public class Screen extends JFrame {
 					twsc.connect(SPEED, PORT_NAME);
 
 					res = twsc.sendSpin();
+					System.out.println("test:"+res);
 					String[] split = res.split("\n");
 					for(int i = 0; i < split.length; i++) {
 						System.out.println("insert"+i+split[i]);
@@ -1127,9 +1128,9 @@ public class Screen extends JFrame {
 				try{
 
 					twsc.sendCommand("rst\n");
+					bootCount();
 					twsc.sendCommand((byte)0x01);//SOH
                     twsc.sendCommand((byte)0x18);//CAN
-					bootCount();
 					
 				}
 				catch(Exception e1) {
