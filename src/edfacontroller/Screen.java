@@ -120,7 +120,7 @@ public class Screen extends JFrame {
 					res = twsc.sendSpin();
 					String[] split = res.split("\n");
 					for(int i = 0; i < split.length; i++) {
-						System.out.println("insert"+i+split[i])
+						System.out.println("insert"+i+split[i]);
 						frame.setTextFieldIn(split[i], i+1);
 					}
 					res = twsc.sendSpout();
