@@ -1124,8 +1124,8 @@ public class Screen extends JFrame {
 				//	    		cl.show(Screen.this.contentPane, "pumpInfo");
 				try{
 
-					//twsc.sendCommand("rst\n");
-					//twsc.sendCommand("boot\n");
+					twsc.sendCommand("rst\n");
+					twsc.sendCommand("boot\n");
 					bootCount();
 				}
 				catch(Exception e1) {
