@@ -111,7 +111,9 @@ public class Screen extends JFrame {
 					Screen frame = new Screen();
 					GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 					GraphicsDevice gd = ge.getDefaultScreenDevice();
-					gd.setFullScreenWindow(frame);
+					frame.setLocationRelativeTo(null); //センタリング
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //最大化
+					//gd.setFullScreenWindow(frame);
 					frame.setVisible(true);
 
 					twsc = new TwoWaySerialComm();
