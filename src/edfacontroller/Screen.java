@@ -1123,31 +1123,10 @@ public class Screen extends JFrame {
 					twsc = new TwoWaySerialComm();
 					twsc.connect(SPEED, PORT_NAME);
 					
-					twsc.sendCommand((byte)0x01);//SOH
-                    twsc.sendCommand((byte)0x18);//CAN
-                    System.out.println(TwoWaySerialComm.readResponse());
-					
-					String res = twsc.sendSpin();
-					String[] split = res.split("\n");
-					for(int i = 0; i < split.length; i++) {
-						setTextFieldIn(split[i], i+1);
-					}
-					res = twsc.sendSpout();
-					String[] split1 = res.split("\n");
-					for(int i = 0; i < split1.length; i++) {
-						setTextFieldOut(split1[i], i+1);
-					}
-					res = twsc.sendPump("EOL");
-					String[] split2 = res.split("\n");
-					for(int i = 0; i < split2.length; i++){
-						setTextFieldPump(split2[i], i+1);
-					}
-					twsc.sendCommand("rst\n");
-					System.out.println(TwoWaySerialComm.readResponse());
-					
+					BootingThread bt = new BootingThread();
+			        Thread t = new Thread(bt);
+			        t.start();
 					bootCount();
-					twsc.sendCommand((byte)0x01);//SOH
-                    twsc.sendCommand((byte)0x18);//CAN
 					
 				}
 				catch(Exception e1) {
@@ -1365,6 +1344,40 @@ public class Screen extends JFrame {
 				cl.show(contentPane, "pumpInfo");
 			}
 		});
+	}
+	
+	class BootingThread extends Thread {
+	    public void run() {
+	    	try {
+	    	twsc.sendCommand((byte)0x01);//SOH
+            twsc.sendCommand((byte)0x18);//CAN
+            System.out.println(TwoWaySerialComm.readResponse());
+			
+			String res = twsc.sendSpin();
+			String[] split = res.split("\n");
+			for(int i = 0; i < split.length; i++) {
+				setTextFieldIn(split[i], i+1);
+			}
+			res = twsc.sendSpout();
+			String[] split1 = res.split("\n");
+			for(int i = 0; i < split1.length; i++) {
+				setTextFieldOut(split1[i], i+1);
+			}
+			res = twsc.sendPump("EOL");
+			String[] split2 = res.split("\n");
+			for(int i = 0; i < split2.length; i++){
+				setTextFieldPump(split2[i], i+1);
+			}
+			twsc.sendCommand("rst\n");
+			System.out.println(TwoWaySerialComm.readResponse());
+			
+			twsc.sendCommand((byte)0x01);//SOH
+            twsc.sendCommand((byte)0x18);//CAN
+	    	}catch(Exception e1) {
+				errorCodeStart.setText("Could not communicate with EDFA");
+				System.out.print(e1.toString());
+			}
+	    }
 	}
 
 	public void bootCount() throws Exception {
