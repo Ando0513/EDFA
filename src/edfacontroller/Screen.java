@@ -1119,8 +1119,13 @@ public class Screen extends JFrame {
 				//				CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
 				//	    		cl.show(Screen.this.contentPane, "pumpInfo");
 				try{
+					
 					twsc = new TwoWaySerialComm();
 					twsc.connect(SPEED, PORT_NAME);
+					
+					twsc.sendCommand((byte)0x01);//SOH
+                    twsc.sendCommand((byte)0x18);//CAN
+                    twsc.readResponse();
 					
 					String res = twsc.sendSpin();
 					String[] split = res.split("\n");
@@ -1363,7 +1368,7 @@ public class Screen extends JFrame {
 	}
 
 	public void bootCount() throws Exception {
-		int delay = 1000; //milliseconds
+		int delay = 500; //milliseconds
 		ActionListener taskPerformer = new ActionListener() {
 			int cnt = 10;
 			String str;
