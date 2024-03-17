@@ -1350,7 +1350,9 @@ public class Screen extends JFrame {
 	    public void run() {
 	    	try {
 	    	twsc.sendCommand((byte)0x01);//SOH
+	    	Thread.sleep(1000);
             twsc.sendCommand((byte)0x18);//CAN
+            Thread.sleep(1000);
             twsc.sendVer();
             //System.out.println(TwoWaySerialComm.readResponse());
 			
@@ -1371,9 +1373,6 @@ public class Screen extends JFrame {
 			}
 			twsc.sendCommand("rst\n");
 			System.out.println(TwoWaySerialComm.readResponse());
-			
-			twsc.sendCommand((byte)0x01);//SOH
-            twsc.sendCommand((byte)0x18);//CAN
 	    	}catch(Exception e1) {
 				errorCodeStart.setText("Could not communicate with EDFA");
 				System.out.print(e1.toString());
