@@ -29,6 +29,9 @@ import java.awt.GraphicsEnvironment;
 import javax.swing.SwingConstants;
 
 public class Screen extends JFrame {
+	final String PORT_NAME = "/dev/ttyUSB0";
+	//final String PORT_NAME = "COM3"; // for debag
+	final int SPEED = 115200;
 
 	private static TwoWaySerialComm twsc;
 	private JPanel contentPane;
@@ -101,13 +104,9 @@ public class Screen extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		final String PORT_NAME = "/dev/ttyUSB0";
-		//final String PORT_NAME = "COM3"; // for debag
-		final int SPEED = 115200;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					String res;
 					Screen frame = new Screen();
 					GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 					GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -116,24 +115,6 @@ public class Screen extends JFrame {
 					//gd.setFullScreenWindow(frame);
 					frame.setVisible(true);
 
-					twsc = new TwoWaySerialComm();
-					twsc.connect(SPEED, PORT_NAME);
-
-					res = twsc.sendSpin();
-					String[] split = res.split("\n");
-					for(int i = 0; i < split.length; i++) {
-						frame.setTextFieldIn(split[i], i+1);
-					}
-					res = twsc.sendSpout();
-					String[] split1 = res.split("\n");
-					for(int i = 0; i < split1.length; i++) {
-						frame.setTextFieldOut(split1[i], i+1);
-					}
-					res = twsc.sendPump("EOL");
-					String[] split2 = res.split("\n");
-					for(int i = 0; i < split2.length; i++){
-						frame.setTextFieldPump(split2[i], i+1);
-					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					//System.exit(1);
@@ -1138,9 +1119,26 @@ public class Screen extends JFrame {
 				//				CardLayout cl = (CardLayout)(Screen.this.contentPane.getLayout());
 				//	    		cl.show(Screen.this.contentPane, "pumpInfo");
 				try{
-
+					twsc = new TwoWaySerialComm();
+					twsc.connect(SPEED, PORT_NAME);
+					
+					String res = twsc.sendSpin();
+					String[] split = res.split("\n");
+					for(int i = 0; i < split.length; i++) {
+						setTextFieldIn(split[i], i+1);
+					}
+					res = twsc.sendSpout();
+					String[] split1 = res.split("\n");
+					for(int i = 0; i < split1.length; i++) {
+						setTextFieldOut(split1[i], i+1);
+					}
+					res = twsc.sendPump("EOL");
+					String[] split2 = res.split("\n");
+					for(int i = 0; i < split2.length; i++){
+						setTextFieldPump(split2[i], i+1);
+					}
 					twsc.sendCommand("rst\n");
-					System.out.println(twsc.readResponse());
+					System.out.println(TwoWaySerialComm.readResponse());
 					bootCount();
 					twsc.sendCommand((byte)0x01);//SOH
                     twsc.sendCommand((byte)0x18);//CAN
