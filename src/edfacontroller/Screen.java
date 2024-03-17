@@ -1123,6 +1123,9 @@ public class Screen extends JFrame {
 					twsc = new TwoWaySerialComm();
 					twsc.connect(SPEED, PORT_NAME);
 					
+					twsc.sendVer();
+					System.out.println(TwoWaySerialComm.readResponse());
+					
 					BootingThread bt = new BootingThread();
 			        Thread t = new Thread(bt);
 			        t.start();
