@@ -1139,6 +1139,7 @@ public class Screen extends JFrame {
 					}
 					twsc.sendCommand("rst\n");
 					System.out.println(TwoWaySerialComm.readResponse());
+					
 					bootCount();
 					twsc.sendCommand((byte)0x01);//SOH
                     twsc.sendCommand((byte)0x18);//CAN
@@ -1362,7 +1363,7 @@ public class Screen extends JFrame {
 	}
 
 	public void bootCount() throws Exception {
-		int delay = 100; //milliseconds
+		int delay = 1000; //milliseconds
 		ActionListener taskPerformer = new ActionListener() {
 			int cnt = 10;
 			String str;
