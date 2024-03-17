@@ -1125,7 +1125,7 @@ public class Screen extends JFrame {
 					
 					twsc.sendCommand((byte)0x01);//SOH
                     twsc.sendCommand((byte)0x18);//CAN
-                    twsc.readResponse();
+                    System.out.println(TwoWaySerialComm.readResponse());
 					
 					String res = twsc.sendSpin();
 					String[] split = res.split("\n");
