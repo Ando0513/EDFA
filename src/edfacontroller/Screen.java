@@ -1123,8 +1123,6 @@ public class Screen extends JFrame {
 					twsc = new TwoWaySerialComm();
 					twsc.connect(SPEED, PORT_NAME);
 					
-					twsc.sendVer();
-					
 					BootingThread bt = new BootingThread();
 			        Thread t = new Thread(bt);
 			        t.start();
@@ -1353,6 +1351,7 @@ public class Screen extends JFrame {
 	    	try {
 	    	twsc.sendCommand((byte)0x01);//SOH
             twsc.sendCommand((byte)0x18);//CAN
+            twsc.sendVer();
             //System.out.println(TwoWaySerialComm.readResponse());
 			
 			String res = twsc.sendSpin();
